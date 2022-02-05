@@ -30,6 +30,6 @@ $TOOLS/repo init -u https://github.com/commaai/android.git -b "repeatable-build-
 $TOOLS/repo sync -c -j$JOBS
 
 # use host flex
-cp /usr/bin/flex mindroid/system/prebuilts/misc/linux-x86/flex/flex-2.5.39
+cp /usr/bin/flex prebuilts/misc/linux-x86/flex/flex-2.5.39
 export PATH=$PWD/bin:$PATH
 (source build/envsetup.sh && breakfast oneplus3 && make -j$JOBS)
