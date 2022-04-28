@@ -54,6 +54,9 @@ tenacity = "*"
 pre-commit = "*"
 parameterized = "*"
 future-fstrings = "*"
+evdev = "*"
+wheel = "*"
+setuptools = "*"
 
 [requires]
 python_version = "3.8.5"

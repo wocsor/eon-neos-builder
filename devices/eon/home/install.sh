@@ -6,7 +6,7 @@ while true; do
     sleep 1
 done
 
-mount -o remount,rw /system
+#mount -o remount,rw /system
 
 # Execute all apt postinstall scripts
 chmod +x /usr/var/lib/dpkg/info/*.postinst
@@ -32,7 +32,7 @@ popd
 
 mkdir -p build/$BINUTILS
 pushd build/$BINUTILS
-../../src/$BINUTILS/configure --target=arm-none-eabi \
+../../src/$BINUTILS/configure CPPFLAGS="-D__ANDROID_API__=28" --target=arm-none-eabi \
   --build=aarch64-unknown-linux-gnu \
   --prefix=$PREFIX --with-cpu=cortex-m4 \
   --with-mode=thumb \
