@@ -6,7 +6,13 @@ while true; do
     sleep 1
 done
 
-#mount -o remount,rw /system
+# mount -o remount,rw /system
+
+# setup the env
+apt-get update
+apt-get install gawk findutils
+chmod 644 /data/data/com.termux/files/home/.ssh/config
+chown root:root /data/data/com.termux/files/home/.ssh/config
 
 # Execute all apt postinstall scripts
 chmod +x /usr/var/lib/dpkg/info/*.postinst
@@ -32,6 +38,10 @@ popd
 
 mkdir -p build/$BINUTILS
 pushd build/$BINUTILS
+
+# hack for binutils
+sed -i '1s/^/#define __ANDROID_API__ 28\n/' ../../src/$BINUTILS/bfd/bfdio.c
+
 ../../src/$BINUTILS/configure CPPFLAGS="-D__ANDROID_API__=28" --target=arm-none-eabi \
   --build=aarch64-unknown-linux-gnu \
   --prefix=$PREFIX --with-cpu=cortex-m4 \
@@ -166,5 +176,8 @@ rm -rf /usr/local/
 python -c "from casadi import *"
 popd
 
+# setup ssh
+sshd
+mkdir -p /data/params/d && touch /data/params/d/GithubSshKeys
 
 printf "\n\nInstall successful\nTook $SECONDS seconds\n"
