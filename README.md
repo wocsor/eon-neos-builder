@@ -35,36 +35,6 @@ mkdir files && cd files
 tar xvf /sdcard/Download/userspace.tar.gz
 mount -o remount,rw /dev/root /
 ln -s /data/data/com.termux/files/usr /usr
-exitwget https://github.com/topjohnwu/Magisk/releases/download/v24.2/Magisk-v24.2.apk
-adb install termux-app_v0.118.0+github-debug_arm64-v8a.apk
-adb install Magisk-v24.2.apk
-unzip -p blueline-pq3a.190801.002/image-blueline-pq3a.190801.002.zip boot.img > boot.img
-adb push boot.img /sdcard/Download/
-# use magisk app to patch boot.img
-adb pull /sdcard/Download/magisk_patched-24200_V7Jgg.img
-adb reboot bootloader
-fastboot flash boot magisk_patched-24200_V7Jgg.img
-fastboot reboot
-
-# your phone is now rooted, this builds and installs the userspace
-# TODO: factor build_usr out of this repo
-git clone git@github.com:commaai/eon-neos-builder.git
-cd eon-neos-builder/devices/eon/build_usr/
-./install.py
-./finish.sh
-cp -pRv ../home out/data/data/com.termux/files/
-cd out/data/data/com.termux/files/
-tar zcvf userspace.tar.gz home usr
-adb push userspace.tar.gz /sdcard/Download/
-adb shell
-
-# now we are on the phone
-su
-cd /data/data/com.termux/ 
-mkdir files && cd files
-tar xvf /sdcard/Download/userspace.tar.gz
-mount -o remount,rw /dev/root /
-ln -s /data/data/com.termux/files/usr /usr
 exit
 
 # enter the new userspace (reuse later)
