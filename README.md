@@ -1,4 +1,4 @@
-# THIS BUILDER IS FOR PIXEL ONLY
+# THIS BUILDER IS FOR ANDROID 9 SNAPDRAGON ONLY
 
 from [geohot's gist](https://gist.github.com/geohot/569e9e4b20fd41203d8da71c6022be15) (edited to remove steps that were added to install.sh):
 
