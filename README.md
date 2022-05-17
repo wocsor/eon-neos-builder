@@ -5,6 +5,18 @@ from [geohot's gist](https://gist.github.com/geohot/569e9e4b20fd41203d8da71c6022
 TODO: script the rest of the process too. better yet, make it all autorun on the phone like NEOS.
 
 ```
+# enter fastboot with power + volume down
+# make sure bootloader is unlocked
+# make sure modern version of android platform tools is installed
+mkdir pixel
+wget https://dl.google.com/dl/android/aosp/blueline-pq3a.190801.002-factory-f3d66c49.zip
+unzip blueline-pq3a.190801.002-factory-f3d66c49.zip
+cd blueline-pq3a.190801.002/
+./flash-all.sh
+
+# wait for boot, click through setup, enable adb as usual for android
+cd ../
+wget https://github.com/termux/termux-app/releases/download/v0.118.0/termux-app_v0.118.0+github-debug_arm64-v8a.apk
 wget https://github.com/topjohnwu/Magisk/releases/download/v24.2/Magisk-v24.2.apk
 adb install termux-app_v0.118.0+github-debug_arm64-v8a.apk
 adb install Magisk-v24.2.apk
@@ -69,30 +81,6 @@ cp /data/openpilot/third_party/qt-plugins/aarch64/libqeglfs-surfaceflinger-integ
 mkdir -p tmp && mount -t tmpfs -o size=2048M tmpfs /tmp
 cd ~
 tmux
-
-# build and install extra packages
-# comment out line 9 from install.sh with the mount
-# this takes about 45 minutes
-# TODO: the binutils this builds is broken
-./install.sh
-
-# on host
-adb forward tcp:8022 tcp:8022
-ssh -p 8022 localhost
-
-# install openpilot
-touch /EON
-cd /data
-git clone https://github.com/commaai/openpilot.git --recurse-submodules -b pixel3
-cd openpilot
-scons -j4
-# two things currently don't build, the model and panda (binutils issue)
-
-# HACK: for qt to talk to android 9 surfaceflinger and for locked rotation landscape
-cp /data/openpilot/third_party/qt-plugins/aarch64/libqeglfs-surfaceflinger-integration.so /usr/libexec/qt/egldeviceintegrations/
-
-# launch!
-./launch_openpilot.sh
 ```
 
 
