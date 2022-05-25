@@ -176,8 +176,25 @@ rm -rf /usr/local/
 python -c "from casadi import *"
 popd
 
+printf "\n\nInstall successful\nTook $SECONDS seconds\n"
+
+
 # setup ssh
-sshd
 mkdir -p /data/params/d && touch /data/params/d/GithubSshKeys
 
-printf "\n\nInstall successful\nTook $SECONDS seconds\n"
+# install autolaunch scripts
+cp start_rp.sh /data/adb/service.d/
+cp start_sshd.sh /data/adb/service.d/
+rm start_*
+
+# clone RP
+# TODO: move this to some other app or script
+cd /data
+git clone https://github.com/RetroPilot/retropilot --recurse-submodules openpilot
+cd openpilot
+cp /data/openpilot/third_party/qt-plugins/aarch64/libqeglfs-surfaceflinger-integration.so /usr/libexec/qt/egldeviceintegrations/
+scons -j4
+
+printf "\n\nREBOOTING\n"
+
+reboot

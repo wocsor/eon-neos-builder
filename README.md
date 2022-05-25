@@ -44,31 +44,13 @@ cd ~
 tmux
 
 # build and install extra packages
-# comment out line 9 from install.sh with the mount
 # this takes about 45 minutes
-# TODO: the binutils this builds is broken
 ./install.sh
 
 # on host
 adb forward tcp:8022 tcp:8022
 ssh -p 8022 localhost
 
-# install openpilot
-touch /EON
-cd /data
-git clone https://github.com/retropilot/retropilot.git --recurse-submodules openpilot
-cd openpilot
-scons -j4
-# two things currently don't build, the model and panda (binutils issue)
-
-# HACK: for qt to talk to android 9 surfaceflinger and for locked rotation landscape
-cp /data/openpilot/third_party/qt-plugins/aarch64/libqeglfs-surfaceflinger-integration.so /usr/libexec/qt/egldeviceintegrations/
-
-# launch!
-./launch_openpilot.sh/files/usr/bin:/bin" LD_LIBRARY_PATH="/data/data/com.termux/files/usr/lib" bash'
-mkdir -p tmp && mount -t tmpfs -o size=2048M tmpfs /tmp
-cd ~
-tmux
 ```
 
 
