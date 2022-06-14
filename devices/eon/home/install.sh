@@ -145,6 +145,17 @@ make -j4
 make install
 popd
 
+# ------- OpenCV
+cd /tmp/build
+git clone https://github.com/opencv/opencv.git
+git -C opencv checkout 4.x
+mkdir -p build 
+cd build
+cmake ../opencv -DCMAKE_CXX_FLAGS="-llog" 
+make -j3
+make install
+popd
+
 # ------- python packages
 cd $HOME
 export PYCURL_SSL_LIBRARY=openssl
@@ -179,22 +190,22 @@ popd
 printf "\n\nInstall successful\nTook $SECONDS seconds\n"
 
 
-# setup ssh
-mkdir -p /data/params/d && touch /data/params/d/GithubSshKeys
+# # setup ssh
+# mkdir -p /data/params/d && touch /data/params/d/GithubSshKeys
 
-# install autolaunch scripts
-cp start_rp.sh /data/adb/service.d/
-cp start_sshd.sh /data/adb/service.d/
-rm start_*
+# # install autolaunch scripts
+# cp start_rp.sh /data/adb/service.d/
+# cp start_sshd.sh /data/adb/service.d/
+# rm start_*
 
-# clone RP
-# TODO: move this to some other app or script
-cd /data
-git clone https://github.com/RetroPilot/retropilot --recurse-submodules openpilot
-cd openpilot
-cp /data/openpilot/third_party/qt-plugins/aarch64/libqeglfs-surfaceflinger-integration.so /usr/libexec/qt/egldeviceintegrations/
-scons -j4
+# # clone RP
+# # TODO: move this to some other app or script
+# cd /data
+# git clone https://github.com/RetroPilot/retropilot --recurse-submodules openpilot
+# cd openpilot
+# cp /data/openpilot/third_party/qt-plugins/aarch64/libqeglfs-surfaceflinger-integration.so /usr/libexec/qt/egldeviceintegrations/
+# scons -j4
 
-printf "\n\nREBOOTING\n"
+# printf "\n\nREBOOTING\n"
 
-reboot
+# reboot
